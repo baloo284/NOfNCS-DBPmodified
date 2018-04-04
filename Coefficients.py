@@ -118,82 +118,33 @@ class Coefficients():
         return Coefficients.__Su
 
     @staticmethod
-    def bcDirichlet(wall, phi, typeAp = ''):
+    def bcDirichlet(wall, phi):
         """
         Método estático que ajusta los coeficientes de los volúmenes en las fronteras dados los valores de la propiedad en las mismas.
         Nota: Por ciertas dependencias, para algunos métodos se calcularon estos coeficientes directamente en la clase que modela la parte advectiva.
         
         @param wall: Frontera a la que es adyacente el volumen
         @param phi: valor de la propiedad en la frontera
-        @param typeAp: tipo de esquema que se usará para ajustar los coeficientes.
         """
         aP = Coefficients.__aP
         aE = Coefficients.__aE
         aW = Coefficients.__aW
-        aEE = Coefficients.__aEE
-        aWW = Coefficients.__aWW
         Su = Coefficients.__Su
 
-        if typeAp == 'UpW': 
-            if wall == 'LEFT_WALL':
-                aP[1] += aW[1]
-                Su[1] += 2 * aW[1] * phi
-            elif wall == 'RIGHT_WALL':
-                aP[-2] += aE[-2]
-                Su[-2] += 2 * aE[-2] * phi  
-        elif typeAp == 'UpW2': 
-            if wall == 'LEFT_WALL':
-                aP[1] += aW[1]
-                Su[1] += 2 * aW[1] * phi
-            elif wall == 'RIGHT_WALL':
-                aP[-2] += aE[-2]
-                Su[-2] += 2 * aE[-2] * phi 
-
-        elif typeAp == 'QUICK':
-            if wall == 'LEFT_WALL':
-                aP[1] += aW[1]
-                Su[1] += 2 * aW[1] * phi
-            elif wall == 'RIGHT_WALL':
-                aP[-2] += aE[-2]
-                Su[-2] += 2 * aE[-2] * phi 
-                        
-#            if wall == 'LEFT_WALL':
-#                aP[1] += 1.1#7 * aP[1] / 8 + 3 * aE[1] / 8 - 2 * phi / 8  #1.1
-#                aE[1] += 0.167
-#                aW[2] += .025
-#                #aE[1] += 3 * aE[1] / 8
-#                #aW[2] += phi/6
-#                Su[1] += 1.583#2 * aE[1] + aW[1]#8 * (aP[1] + 2 * phi / 8 - 3 * (aE[1] - 0.167) / 8) / 7 + 6 * aW[1] / 8 #1.583
-#                #print(Su[1])
-#                Su[2] += -0.05
-#                print("---------")
-#                print(aP[1])
-#                print(Su[1])
-#                print("---------")
-#            elif wall == 'RIGHT_WALL':
-#                aP[-2] += 0.85#6 * aW[-2] / 8 + 3 * aP[-2] / 8 - aWW[-2] / 8 #0.85
-#                aW[-2] += 0.142
-#                Su[-2] += 2 * aE[-2] * phi
-#                print("---------")
-#                print(aP[-2])
-#                print(Su[-2])
-#                print("---------")
-        else:
-            if wall == 'LEFT_WALL':
-                aP[1] += aW[1]
-                Su[1] += 2 * aW[1] * phi
-            elif wall == 'RIGHT_WALL':
-                aP[-2] += aE[-2]
-                Su[-2] += 2 * aE[-2] * phi       
+        if wall == 'LEFT_WALL':
+            aP[1] += aW[1]
+            Su[1] += 2 * aW[1] * phi
+        elif wall == 'RIGHT_WALL':
+            aP[-2] += aE[-2]
+            Su[-2] += 2 * aE[-2] * phi       
 
     @staticmethod
-    def bcNeumman(wall, flux, typeAp = ''):
+    def bcNeumman(wall, flux):
         """
         Método estático que ajusta los coeficientes de los volúmenes en las fronteras dados los flujos de la propiedad en las mismas.
         
         @param wall: Frontera a la que es adyacente el volumen
         @param flux: valor del flujo de la propiedad en la frontera
-        @param typeAp: tipo de esquema que se usará para ajustar los coeficientes.
         """
         aP = Coefficients.__aP
         aE = Coefficients.__aE
@@ -201,67 +152,54 @@ class Coefficients():
         Su = Coefficients.__Su
         dx = Coefficients.__delta
 
-        if typeAp == 'UpW2': 
-            if wall == 'LEFT_WALL':
-                aP[1] -= aW[1]
-                Su[1] -= aW[1] * flux * dx
-            elif wall == 'RIGHT_WALL':
-                aP[-2] -= aE[-2]
-                Su[-2] += aE[-2] * flux * dx  
-        elif typeAp == 'QUICK':
-            if wall == 'LEFT_WALL':
-                aP[1] -= aW[1]
-                Su[1] -= aW[1] * flux * dx
-            elif wall == 'RIGHT_WALL':
-                aP[-2] -= aE[-2]
-                Su[-2] += aE[-2] * flux * dx 
-        else:
-            if wall == 'LEFT_WALL':
-                aP[1] -= aW[1]
-                Su[1] -= aW[1] * flux * dx
-            elif wall == 'RIGHT_WALL':
-                aP[-2] -= aE[-2]
-                Su[-2] += aE[-2] * flux * dx  
+        if wall == 'LEFT_WALL':
+            aP[1] -= aW[1]
+            Su[1] -= aW[1] * flux * dx
+        elif wall == 'RIGHT_WALL':
+            aP[-2] -= aE[-2]
+            Su[-2] += aE[-2] * flux * dx  
             
-    def setSu(self, q, typeAp = ''):
+    def setSu(self, q):
         """
         Método que corrige el valor de los coeficientes de Su para los distintos volúmenes.
         
         @param q: valor de la fuente/sumidero en los puntos.
-        @param typeAp: tipo de esquema que se usará para ajustar los coeficientes.
         """
-        if typeAp == 'UpW2': 
-            Su = Coefficients.__Su
-            dx = Coefficients.__delta
-            Su += q * dx
-        elif typeAp == 'QUICK':
-            Su = Coefficients.__Su
-            dx = Coefficients.__delta
-            Su += q * dx
-        else:
-            Su = Coefficients.__Su
-            dx = Coefficients.__delta
-            Su += q * dx
+        Su = Coefficients.__Su
+        dx = Coefficients.__delta
+        Su += q * dx
         
-    def setSp(self, Sp, typeAp = ''):
+    def setSp(self, Sp):
         """
         Método que corrige el valor de los coeficientes de aP para los distintos volúmenes de acuerdo a un Sp dado.
         
         @param Sp: valor con el que se corregirán los coeficientes aP.
-        @param typeAp: tipo de esquema que se usará para ajustar los coeficientes.
         """
-        if typeAp == 'UpW2': 
-            aP = Coefficients.__aP
-            dx = Coefficients.__delta
-            aP -= Sp * dx
-        elif typeAp == 'QUICK':
-            aP = Coefficients.__aP
-            dx = Coefficients.__delta
-            aP -= Sp * dx
-        else:
-            aP = Coefficients.__aP
-            dx = Coefficients.__delta
-            aP -= Sp * dx
+        aP = Coefficients.__aP
+        dx = Coefficients.__delta
+        aP -= Sp * dx
+            
+    def printCoefficients(self):
+        """
+        Método para imprimir el valor de los arreglos que almacenan los coeficientes del objeto.
+        """
+        print('aP = {}'.format(self.__aP), 
+              'aE = {}'.format(self.__aE), 
+              'aW = {}'.format(self.__aW),
+              'aEE = {}'.format(self.__aEE), 
+              'aWW = {}'.format(self.__aWW),
+              'Su = {}'.format(self.__Su), sep='\n')
+
+    def cleanCoefficients(self):
+        """
+        Método para asignar el valor de cero a todos los coeficientes.
+        """
+        Coefficients.__aP[:] = 0.0
+        Coefficients.__aE[:] = 0.0
+        Coefficients.__aW[:] = 0.0
+        Coefficients.__aEE[:] = 0.0
+        Coefficients.__aWW[:] = 0.0
+        Coefficients.__Su[:] = 0.0
 
 if __name__ == '__main__':
     

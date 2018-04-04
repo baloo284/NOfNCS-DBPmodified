@@ -12,6 +12,7 @@ from Mesh import Mesh
 from Coefficients import Coefficients
 from Diffusion import Diffusion1D
 from Advection import Advection1D
+from Temporal import Temporal1D
 from Matrix import Matrix
 import time
 

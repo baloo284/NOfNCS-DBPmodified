@@ -121,11 +121,11 @@ print('.'+ '-'*70 + '.')
 #
 x *= 100 # Transformación a [cm]
 plt.plot(x,Phia, '-', label = 'Sol. analítica') # Sol. analítica
-plt.plot(x,Phi,'o', label = 'Sol. FVM')
+plt.plot(x,Phi,'o--', label = 'Sol. FVM')
 plt.title('Solución de $\partial ( rho*u*phi)/\partial x = \partial ( Gamma (\partial T /\partial x ))/\partial x$ con FVM')
 plt.xlabel('$x$ [cm]')
 plt.ylabel('Propiedad')
 plt.grid()
 plt.legend()
-plt.savefig('Problema5.1-Diferencias_Centradas.pdf')
+plt.savefig('Problema5.1-Diferencias_Centradas.png')
 plt.show()

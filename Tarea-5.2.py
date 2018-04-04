@@ -78,8 +78,8 @@ adv1.calcCoef('UpW')  # Se calcula la parte advectiva de los coeficientes
 Phi = np.zeros(nvx) # El arreglo contiene ceros
 Phi[0]  = PhiA        # Condición de frontera izquierda
 Phi[-1] = PhiB        # Condición de frontera derecha
-coef.bcDirichlet('LEFT_WALL', Phi[0], 'UpW')   # Se actualizan los coeficientes
-coef.bcDirichlet('RIGHT_WALL', Phi[-1], 'UpW') # de acuerdo a las cond. de frontera
+coef.bcDirichlet('LEFT_WALL', Phi[0])   # Se actualizan los coeficientes
+coef.bcDirichlet('RIGHT_WALL', Phi[-1]) # de acuerdo a las cond. de frontera
 #print('aW = {}'.format(df1.aW()), 
 #      'aE = {}'.format(df1.aE()), 
 #      'Su = {}'.format(df1.Su()), 
@@ -127,5 +127,5 @@ plt.xlabel('$x$ [cm]')
 plt.ylabel('Propiedad')
 plt.grid()
 plt.legend()
-plt.savefig('Problema5.1-Upwind.pdf')
+plt.savefig('Problema5.1-Upwind.png')
 plt.show()

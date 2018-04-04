@@ -69,17 +69,16 @@ coef.alloc(nvx)
 df1 = fvm.Diffusion1D(nvx, Gamma = gamma, dx = delta)
 df1.calcCoef() # Se calcula la parte difusiva de los coeficientes
 
+D = gamma/delta
 adv1 = fvm.Advection1D(nvx, rho = rho, dx = delta)
 adv1.setU(u)
-adv1.calcCoef('QUICK', PhiA, PhiB) # Se calcula la parte advectiva de los coeficientes 
+adv1.calcCoef('QUICK', PhiA, PhiB, D) # Se calcula la parte advectiva de los coeficientes 
 #
 # Se construye el arreglo donde se guardará la solución
 #
 Phi = np.zeros(nvx) # El arreglo contiene ceros
 Phi[0]  = PhiA        # Condición de frontera izquierda
 Phi[-1] = PhiB        # Condición de frontera derecha
-coef.bcDirichlet('LEFT_WALL', Phi[0], 'QUICK')   # Se actualizan los coeficientes
-coef.bcDirichlet('RIGHT_WALL', Phi[-1], 'QUICK') # de acuerdo a las cond. de frontera
 #
 # Se construye el sistema lineal de ecuaciones a partir de los coef. de FVM
 #
@@ -116,11 +115,11 @@ print('.'+ '-'*70 + '.')
 #
 x *= 100 # Transformación a [cm]
 plt.plot(x,Phia, '-', label = 'Sol. analítica') # Sol. analítica
-plt.plot(x,Phi,'o', label = 'Sol. FVM')
+plt.plot(x,Phi,'o--', label = 'Sol. FVM')
 plt.title('Solución de $\partial ( rho*u*phi)/\partial x = \partial ( Gamma (\partial T /\partial x ))/\partial x$ con FVM')
 plt.xlabel('$x$ [cm]')
 plt.ylabel('Propiedad')
 plt.grid()
 plt.legend()
-plt.savefig('Problema5.1-QUICK.pdf')
+plt.savefig('Problema5.1-QUICK.png')
 plt.show()

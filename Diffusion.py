@@ -34,7 +34,7 @@ class Diffusion1D(Coefficients):
         del(self.__Gamma)
         del(self.__dx)
     
-    def calcCoef(self, dt = 1):
+    def calcCoef(self):
         """
         Método que calcula la parte difusiva de los coeficientes que aparecerán en la matriz que se resolverá.
         
@@ -47,8 +47,8 @@ class Diffusion1D(Coefficients):
         aP = self.aP()
         Su = self.Su()
         
-        aE += dt * self.__Gamma / self.__dx
-        aW += dt * self.__Gamma / self.__dx
+        aE += self.__Gamma / self.__dx
+        aW += self.__Gamma / self.__dx
         aP += aE + aW
 #        if typeAp == 'QUICK':
 #            #prueba de ajustes a los coeficientes de difusión de acuerdo al problema 5.3

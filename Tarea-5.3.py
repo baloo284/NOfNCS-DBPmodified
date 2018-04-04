@@ -78,13 +78,6 @@ adv1.calcCoef('UpW2', PhiA, PhiB) # Se calcula la parte advectiva de los coefici
 Phi = np.zeros(nvx) # El arreglo contiene ceros
 Phi[0]  = PhiA        # Condición de frontera izquierda
 Phi[-1] = PhiB        # Condición de frontera derecha
-coef.bcDirichlet('LEFT_WALL', Phi[0], 'UpW2')   # Se actualizan los coeficientes
-coef.bcDirichlet('RIGHT_WALL', Phi[-1], 'UpW2') # de acuerdo a las cond. de frontera
-#print('aW = {}'.format(df1.aW()), 
-#      'aE = {}'.format(df1.aE()), 
-#      'Su = {}'.format(df1.Su()), 
-#      'aP = {}'.format(df1.aP()), sep='\n')
-#print('.'+'-'*70+'.')
 #
 # Se construye el sistema lineal de ecuaciones a partir de los coef. de FVM
 #
@@ -121,11 +114,11 @@ print('.'+ '-'*70 + '.')
 #
 x *= 100 # Transformación a [cm]
 plt.plot(x,Phia, '-', label = 'Sol. analítica') # Sol. analítica
-plt.plot(x,Phi,'o', label = 'Sol. FVM')
+plt.plot(x,Phi,'o--', label = 'Sol. FVM')
 plt.title('Solución de $\partial ( rho*u*phi)/\partial x = \partial ( Gamma (\partial T /\partial x ))/\partial x$ con FVM')
 plt.xlabel('$x$ [cm]')
 plt.ylabel('Propiedad')
 plt.grid()
 plt.legend()
-plt.savefig('Problema5.1-Upwind_2do_Orden.pdf')
+plt.savefig('Problema5.1-Upwind_2do_Orden.png')
 plt.show()
